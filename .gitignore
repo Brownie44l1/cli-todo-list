@@ -1,0 +1,17 @@
+# Binaries and build artifacts
+todo         # Linux/macOS binary
+todo.exe     # Windows binary
+#/todo.json   # Optional: Ignore the data file (if you prefer fresh starts)
+
+# Dependency directories
+vendor/
+
+# IDE/Editor files
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# Environment files
+.env
+*.env.local
