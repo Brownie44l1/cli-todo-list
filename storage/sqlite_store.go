@@ -57,24 +57,24 @@ func (s *SQLiteStore) Add(task todo.Task) error {
 func (s *SQLiteStore) Get(id int) (*todo.Task, error) {
 	var task todo.Task
 	var createdAtStr string
-	
+
 	err := s.db.QueryRow(
 		"SELECT id, title, description, completed, created_at FROM todo_list WHERE id = ?",
 		id,
 	).Scan(&task.Id, &task.Title, &task.Description, &task.Completed, &createdAtStr)
-	
+
 	if err == sql.ErrNoRows {
 		return nil, fmt.Errorf("task with id %d not found", id)
 	}
 	if err != nil {
 		return nil, fmt.Errorf("failed to get task: %w", err)
 	}
-	
+
 	task.CreatedAt, err = time.Parse(time.RFC3339, createdAtStr)
 	if err != nil {
 		return nil, fmt.Errorf("failed to parse created_at: %w", err)
 	}
-	
+
 	return &task, nil
 }
 
@@ -91,24 +91,24 @@ func (s *SQLiteStore) List() ([]todo.Task, error) {
 	for rows.Next() {
 		var task todo.Task
 		var createdAtStr string
-		
+
 		err := rows.Scan(&task.Id, &task.Title, &task.Description, &task.Completed, &createdAtStr)
 		if err != nil {
 			return nil, fmt.Errorf("failed to scan task: %w", err)
 		}
-		
+
 		task.CreatedAt, err = time.Parse(time.RFC3339, createdAtStr)
 		if err != nil {
 			return nil, fmt.Errorf("failed to parse created_at: %w", err)
 		}
-		
+
 		tasks = append(tasks, task)
 	}
-	
+
 	if err = rows.Err(); err != nil {
 		return nil, fmt.Errorf("error iterating rows: %w", err)
 	}
-	
+
 	return tasks, nil
 }
 
@@ -117,16 +117,16 @@ func (s *SQLiteStore) Complete(id int) error {
 	if err != nil {
 		return fmt.Errorf("failed to complete task: %w", err)
 	}
-	
+
 	rows, err := result.RowsAffected()
 	if err != nil {
 		return fmt.Errorf("failed to get rows affected: %w", err)
 	}
-	
+
 	if rows == 0 {
 		return fmt.Errorf("task with id %d not found", id)
 	}
-	
+
 	return nil
 }
 
@@ -135,16 +135,16 @@ func (s *SQLiteStore) Delete(id int) error {
 	if err != nil {
 		return fmt.Errorf("failed to delete task: %w", err)
 	}
-	
+
 	rows, err := result.RowsAffected()
 	if err != nil {
 		return fmt.Errorf("failed to get rows affected: %w", err)
 	}
-	
+
 	if rows == 0 {
 		return fmt.Errorf("task with id %d not found", id)
 	}
-	
+
 	return nil
 }
 
