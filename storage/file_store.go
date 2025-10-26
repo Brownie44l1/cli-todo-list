@@ -59,6 +59,10 @@ func (fs *FileStore) Load() error {
 	if fs.nextID == 0 {
 		fs.nextID = 1
 	}
+
+	for i, t := range fs.tasks {
+		t.Id = i + 1
+	}
 	
 	return nil
 }
@@ -95,6 +99,9 @@ func (fs *FileStore) List() ([]todo.Task, error) {
 	for i, t := range fs.tasks {
 		tasks[i] = *t
 	}
+	for i, t := range fs.tasks {
+        t.Id = i + 1
+    }
 	return tasks, nil
 }
 
@@ -109,13 +116,28 @@ func (fs *FileStore) Complete(id int) error {
 }
 
 func (fs *FileStore) Delete(id int) error {
+	index := -1
 	for i, t := range fs.tasks {
 		if t.Id == id {
-			fs.tasks = append(fs.tasks[:i], fs.tasks[i+1:]...)
-			return fs.Save()
+			index = i
+			break
 		}
 	}
-	return errors.New("task not found")
+
+	if index == -1 {
+		return errors.New("task not found")
+	}
+
+	// Remove the task
+	fs.tasks = append(fs.tasks[:index], fs.tasks[index+1:]...)
+
+	// Reindex remaining tasks
+	for i, t := range fs.tasks {
+		t.Id = i + 1
+	}
+
+	// Save updated data
+	return fs.Save()
 }
 
 func (fs *FileStore) Close() error {

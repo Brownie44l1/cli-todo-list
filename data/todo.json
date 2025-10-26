@@ -1,20 +1,16 @@
 [
-  {
-    "id": 2,
-    "title": "Buy peppermit \u0026 snacks",
-    "done": false,
-    "added": "2025-08-05T13:39:43.5951897+01:00"
-  },
-  {
-    "id": 3,
-    "title": "Sell Bicycle",
-    "done": false,
-    "added": "2025-08-05T13:39:58.3256311+01:00"
-  },
-  {
-    "id": 4,
-    "title": "Learn Cycling",
-    "done": false,
-    "added": "2025-08-05T13:40:14.1754009+01:00"
-  }
+	{
+		"id": 1,
+		"title": "Buy peppermit \u0026 snacks",
+		"description": "",
+		"completed": true,
+		"created_at": "2025-10-26T01:40:40.3285775+01:00"
+	},
+	{
+		"id": 2,
+		"title": "Write",
+		"description": "technical blogs",
+		"completed": true,
+		"created_at": "2025-10-26T01:48:40.3285775+01:00"
+	}
 ]
