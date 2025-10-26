@@ -14,7 +14,7 @@ import (
 )
 
 func main() {
-	store, err := storage.NewSQLiteStore("todo.db")
+	store, err := storage.NewFileStore("./data/todo.json")
 	if err != nil {
 		log.Fatal(err)
 	}
